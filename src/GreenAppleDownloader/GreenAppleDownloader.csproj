@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>Assets\green-apple.ico</ApplicationIcon>
+    <AssemblyName>GreenAppleDownloader</AssemblyName>
+    <RootNamespace>GreenAppleDownloader</RootNamespace>
+    <Version>0.2.0</Version>
+    <Authors>Green Apple Tools</Authors>
+    <Product>青苹果下载器</Product>
+    <Description>从 Google Sheets 下载选中的 Google Drive 视频和图片。</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\green-apple.png" />
+    <Resource Include="Assets\green-apple.ico" />
+    <Content Include="..\..\docs\配置说明.html" Link="配置说明.html" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\apps-script\Code.gs" Link="表格脚本\Code.gs" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\..\apps-script\安装说明.md" Link="表格脚本\安装说明.md" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

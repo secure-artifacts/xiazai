@@ -1,0 +1,197 @@
+<Window x:Class="GreenAppleDownloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="青苹果下载器" Width="1180" Height="760" MinWidth="980" MinHeight="660"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource CanvasBrush}"
+        Icon="/GreenAppleDownloader;component/Assets/green-apple.ico">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="226" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <Border Grid.Column="0" Background="#153A27">
+      <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+          <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="22,24,18,20">
+          <Image Source="/GreenAppleDownloader;component/Assets/green-apple.png" Width="78" Height="78" HorizontalAlignment="Left" />
+          <TextBlock Text="青苹果下载器" Foreground="White" FontSize="21" FontWeight="SemiBold" Margin="0,10,0,2" />
+          <TextBlock Text="Drive 成品，一键收好" Foreground="#AFC8B8" FontSize="12" />
+        </StackPanel>
+        <Border Grid.Row="1" Height="1" Background="#2B513B" Margin="18,0,18,12" />
+        <StackPanel Grid.Row="2">
+          <Button x:Name="HomeNavButton" Style="{StaticResource NavButton}" Click="ShowHome_Click">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="⌂" FontSize="18" Width="30"/><TextBlock Text="下载中心" VerticalAlignment="Center"/></StackPanel>
+          </Button>
+          <Button Style="{StaticResource NavButton}" Click="ShowManual_Click">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="＋" FontSize="18" Width="30"/><TextBlock Text="粘贴链接" VerticalAlignment="Center"/></StackPanel>
+          </Button>
+          <Button Style="{StaticResource NavButton}" Click="ShowSettings_Click">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="⚙" FontSize="17" Width="30"/><TextBlock Text="设置" VerticalAlignment="Center"/></StackPanel>
+          </Button>
+          <Button Style="{StaticResource NavButton}" Click="OpenDownloadFolder_Click">
+            <StackPanel Orientation="Horizontal"><TextBlock Text="▣" FontSize="16" Width="30"/><TextBlock Text="打开下载目录" VerticalAlignment="Center"/></StackPanel>
+          </Button>
+        </StackPanel>
+        <Border Grid.Row="3" Margin="18,12,18,20" Padding="12" CornerRadius="10" Background="#224B34">
+          <StackPanel>
+            <StackPanel Orientation="Horizontal">
+              <Ellipse x:Name="ConnectionDot" Width="8" Height="8" Fill="#E6B44A" Margin="0,0,8,0" />
+              <TextBlock x:Name="ConnectionText" Text="等待完成设置" Foreground="White" FontSize="12" />
+            </StackPanel>
+            <TextBlock Text="v0.2  ·  为素材团队设计" Foreground="#9EB8A8" FontSize="10" Margin="0,7,0,0" />
+          </StackPanel>
+        </Border>
+      </Grid>
+    </Border>
+
+    <Grid Grid.Column="1" Margin="28,22,28,24">
+      <Grid x:Name="HomeView">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid>
+          <StackPanel>
+            <TextBlock Text="下载中心" FontSize="29" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" />
+            <TextBlock Text="在 Google 表格框选成品链接，然后从菜单发送到这里。" Foreground="{StaticResource MutedInkBrush}" Margin="0,5,0,0" />
+          </StackPanel>
+          <Border HorizontalAlignment="Right" VerticalAlignment="Top" Background="White" BorderBrush="{StaticResource CardBorderBrush}" BorderThickness="1" CornerRadius="16" Padding="13,8">
+            <StackPanel Orientation="Horizontal">
+              <Ellipse Width="8" Height="8" Fill="{StaticResource AppleGreenBrush}" Margin="0,0,7,0" />
+              <TextBlock x:Name="TopStatusText" Text="准备就绪" Foreground="{StaticResource AppleGreenDarkBrush}" FontWeight="SemiBold" FontSize="12" />
+            </StackPanel>
+          </Border>
+        </Grid>
+
+        <Grid Grid.Row="1" Margin="0,22,0,16">
+          <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+          <Border Style="{StaticResource CardStyle}" Margin="0,0,10,0" Padding="18,15">
+            <Grid><StackPanel><TextBlock Text="本批任务" Foreground="{StaticResource MutedInkBrush}" FontSize="12"/><TextBlock x:Name="TotalCountText" Text="0" Foreground="{StaticResource InkBrush}" FontSize="26" FontWeight="SemiBold" Margin="0,3,0,0"/></StackPanel><Border HorizontalAlignment="Right" Width="42" Height="42" CornerRadius="12" Background="#E9F8EF"><TextBlock Text="↓" Foreground="{StaticResource AppleGreenDarkBrush}" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border></Grid>
+          </Border>
+          <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="5,0" Padding="18,15">
+            <Grid><StackPanel><TextBlock Text="已完成" Foreground="{StaticResource MutedInkBrush}" FontSize="12"/><TextBlock x:Name="DoneCountText" Text="0" Foreground="{StaticResource AppleGreenDarkBrush}" FontSize="26" FontWeight="SemiBold" Margin="0,3,0,0"/></StackPanel><Border HorizontalAlignment="Right" Width="42" Height="42" CornerRadius="12" Background="#E9F8EF"><TextBlock Text="✓" Foreground="{StaticResource AppleGreenDarkBrush}" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border></Grid>
+          </Border>
+          <Border Grid.Column="2" Style="{StaticResource CardStyle}" Margin="10,0,0,0" Padding="18,15">
+            <Grid><StackPanel><TextBlock Text="同时下载" Foreground="{StaticResource MutedInkBrush}" FontSize="12"/><TextBlock x:Name="ConcurrencySummaryText" Text="2 个" Foreground="{StaticResource InkBrush}" FontSize="26" FontWeight="SemiBold" Margin="0,3,0,0"/></StackPanel><Border HorizontalAlignment="Right" Width="42" Height="42" CornerRadius="12" Background="#FFF6E2"><TextBlock Text="⚡" Foreground="#C88B1C" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center"/></Border></Grid>
+          </Border>
+        </Grid>
+
+        <Border Grid.Row="2" Style="{StaticResource CardStyle}" Padding="18,15" Margin="0,0,0,16">
+          <Grid>
+            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <Border Width="46" Height="46" CornerRadius="13" Background="{StaticResource AppleGreenSoftBrush}">
+              <TextBlock Text="▦" Foreground="{StaticResource AppleGreenDarkBrush}" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="14,1,18,0">
+              <TextBlock Text="等待表格里的新任务" Foreground="{StaticResource InkBrush}" FontSize="15" FontWeight="SemiBold" />
+              <TextBlock x:Name="QueueHintText" Text="打开表格 → 框选链接 → 🍏 成品下载" Foreground="{StaticResource MutedInkBrush}" FontSize="12" Margin="0,4,0,0" TextTrimming="CharacterEllipsis" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
+            </StackPanel>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+              <Button x:Name="CancelButton" Content="停止本批" Style="{StaticResource SecondaryButton}" Click="Cancel_Click" Visibility="Collapsed" Margin="0,0,8,0" />
+              <Button x:Name="SyncButton" Content="立即检查" Style="{StaticResource PrimaryButton}" Click="SyncNow_Click" />
+            </StackPanel>
+          </Grid>
+        </Border>
+
+        <Border Grid.Row="3" Style="{StaticResource CardStyle}" Padding="0">
+          <Grid>
+            <DataGrid x:Name="TaskGrid" AutoGenerateColumns="False" IsReadOnly="True" BorderThickness="0" Background="Transparent" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="#EDF2EE" RowHeaderWidth="0" HeadersVisibility="Column" CanUserAddRows="False" SelectionMode="Single">
+              <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="DataGridColumnHeader"><Setter Property="Background" Value="#F8FAF8"/><Setter Property="Foreground" Value="{StaticResource MutedInkBrush}"/><Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Padding" Value="13,11"/><Setter Property="BorderBrush" Value="#EDF2EE"/><Setter Property="BorderThickness" Value="0,0,0,1"/></Style>
+              </DataGrid.ColumnHeaderStyle>
+              <DataGrid.RowStyle><Style TargetType="DataGridRow"><Setter Property="MinHeight" Value="52"/><Setter Property="BorderThickness" Value="0"/></Style></DataGrid.RowStyle>
+              <DataGrid.CellStyle><Style TargetType="DataGridCell"><Setter Property="Padding" Value="13,7"/><Setter Property="BorderThickness" Value="0"/><Setter Property="VerticalContentAlignment" Value="Center"/><Setter Property="Foreground" Value="{StaticResource InkBrush}"/><Setter Property="ToolTip" Value="{Binding Error}"/></Style></DataGrid.CellStyle>
+              <DataGrid.Columns>
+                <DataGridTextColumn Header="文件" Binding="{Binding FileName}" Width="2.2*" />
+                <DataGridTextColumn Header="来源" Binding="{Binding SourceSheet}" Width="*" />
+                <DataGridTextColumn Header="单元格" Binding="{Binding SourceCell}" Width="85" />
+                <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="120" />
+                <DataGridTemplateColumn Header="进度" Width="1.2*">
+                  <DataGridTemplateColumn.CellTemplate><DataTemplate><Grid><ProgressBar Height="7" Maximum="100" Value="{Binding Progress}" Background="#E9EFEA" Foreground="{StaticResource AppleGreenBrush}"/><TextBlock Text="{Binding Progress, StringFormat={}{0:0}%}" FontSize="10" Foreground="{StaticResource MutedInkBrush}" HorizontalAlignment="Right" Margin="0,0,0,13"/></Grid></DataTemplate></DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+              </DataGrid.Columns>
+            </DataGrid>
+            <StackPanel x:Name="EmptyState" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <Border Width="70" Height="70" CornerRadius="22" Background="{StaticResource AppleGreenSoftBrush}"><Image Source="/GreenAppleDownloader;component/Assets/green-apple.png" Width="52" Height="52"/></Border>
+              <TextBlock Text="还没有下载任务" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}" HorizontalAlignment="Center" Margin="0,12,0,0"/>
+              <TextBlock Text="框选表格中的链接，第一批青苹果马上送达。" Foreground="{StaticResource MutedInkBrush}" FontSize="12" Margin="0,5,0,0"/>
+            </StackPanel>
+          </Grid>
+        </Border>
+      </Grid>
+
+      <Grid x:Name="ManualView" Visibility="Collapsed">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <StackPanel><TextBlock Text="粘贴链接" FontSize="29" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/><TextBlock Text="直接链接或文字超链接都可以提取，视频与图片一次处理。" Foreground="{StaticResource MutedInkBrush}" Margin="0,5,0,0"/></StackPanel>
+        <Border Grid.Row="1" Style="{StaticResource CardStyle}" Margin="0,22,0,0">
+          <Grid><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+            <TextBlock Text="Google Drive 视频 / 图片链接" FontSize="15" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+            <TextBox x:Name="ManualLinksTextBox" Grid.Row="1" Margin="0,12,0,12" AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" VerticalContentAlignment="Top" FontFamily="Consolas" FontSize="13" ToolTip="直接 Ctrl+V：软件会优先读取剪贴板中的真实超链接" PreviewKeyDown="ManualLinksTextBox_PreviewKeyDown"/>
+            <TextBlock x:Name="ManualClipboardStatusText" Grid.Row="2" Text="支持直接网址、文字超链接和文件 ID；复制表格单元格后可直接 Ctrl+V。" Foreground="{StaticResource MutedInkBrush}" FontSize="12"/>
+            <Grid Grid.Row="3" Margin="0,16,0,0">
+              <Button Content="从剪贴板提取超链接" Style="{StaticResource SecondaryButton}" Click="ReadClipboardLinks_Click" HorizontalAlignment="Left"/>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="清空" Style="{StaticResource SecondaryButton}" Click="ClearManual_Click" Margin="0,0,8,0"/>
+                <Button x:Name="ManualDownloadButton" Content="开始下载" Style="{StaticResource PrimaryButton}" Click="ManualDownload_Click"/>
+              </StackPanel>
+            </Grid>
+          </Grid>
+        </Border>
+      </Grid>
+
+      <Grid x:Name="SettingsView" Visibility="Collapsed">
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+        <StackPanel><TextBlock Text="设置" FontSize="29" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/><TextBlock Text="第一次配置后会自动记住，日常使用不必再动。" Foreground="{StaticResource MutedInkBrush}" Margin="0,5,0,0"/></StackPanel>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="0,20,0,0">
+          <StackPanel Margin="0,0,8,8">
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,14">
+              <StackPanel>
+                <TextBlock Text="Google 连接" FontSize="17" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                <TextBlock Text="凭据只保存在这台电脑；登录令牌使用 Windows 加密。" Foreground="{StaticResource MutedInkBrush}" FontSize="12" Margin="0,4,0,16"/>
+                <TextBlock Text="OAuth 桌面客户端 JSON" Foreground="{StaticResource InkBrush}" FontWeight="SemiBold" FontSize="12"/>
+                <Grid Margin="0,6,0,13"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBox x:Name="ClientSecretsPathTextBox"/><Button Grid.Column="1" Content="选择文件" Style="{StaticResource SecondaryButton}" Click="BrowseSecrets_Click" Margin="8,0,0,0"/></Grid>
+                <TextBlock Text="Google 表格链接或 ID" Foreground="{StaticResource InkBrush}" FontWeight="SemiBold" FontSize="12"/>
+                <TextBox x:Name="SpreadsheetTextBox" Margin="0,6,0,13"/>
+                <StackPanel Orientation="Horizontal">
+                  <Button x:Name="ConnectGoogleButton" Content="连接 Google 账号" Style="{StaticResource PrimaryButton}" Click="ConnectGoogle_Click"/>
+                  <Button Content="查看配置说明" Style="{StaticResource SecondaryButton}" Click="OpenSetupGuide_Click" Margin="8,0,0,0"/>
+                  <TextBlock x:Name="GoogleStatusText" Text="尚未连接" Foreground="{StaticResource MutedInkBrush}" Margin="14,0,0,0" VerticalAlignment="Center"/>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,14">
+              <StackPanel>
+                <TextBlock Text="下载偏好" FontSize="17" FontWeight="SemiBold" Foreground="{StaticResource InkBrush}"/>
+                <TextBlock Text="下载根目录" Foreground="{StaticResource InkBrush}" FontWeight="SemiBold" FontSize="12" Margin="0,16,0,0"/>
+                <Grid Margin="0,6,0,13"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><TextBox x:Name="DownloadRootTextBox"/><Button Grid.Column="1" Content="选择目录" Style="{StaticResource SecondaryButton}" Click="BrowseFolder_Click" Margin="8,0,0,0"/></Grid>
+                <Grid><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="24"/><ColumnDefinition/></Grid.ColumnDefinitions>
+                  <StackPanel><TextBlock Text="同时下载数量（建议 2）" Foreground="{StaticResource InkBrush}" FontWeight="SemiBold" FontSize="12"/><ComboBox x:Name="ConcurrencyComboBox" Margin="0,6,0,0"><ComboBoxItem Content="1"/><ComboBoxItem Content="2"/><ComboBoxItem Content="3"/><ComboBoxItem Content="4"/><ComboBoxItem Content="5"/></ComboBox></StackPanel>
+                  <StackPanel Grid.Column="2"><TextBlock Text="失败重试次数" Foreground="{StaticResource InkBrush}" FontWeight="SemiBold" FontSize="12"/><ComboBox x:Name="RetryComboBox" Margin="0,6,0,0"><ComboBoxItem Content="2"/><ComboBoxItem Content="3"/><ComboBoxItem Content="5"/><ComboBoxItem Content="8"/></ComboBox></StackPanel>
+                </Grid>
+                <TextBlock Text="并发数不会限制框选数量；框选 10 个也会按队列全部下载。" Foreground="{StaticResource MutedInkBrush}" FontSize="11" Margin="0,9,0,0"/>
+                <StackPanel Margin="0,14,0,0">
+                  <CheckBox x:Name="AutoSyncCheckBox" Content="自动检查表格中的新任务"/>
+                  <CheckBox x:Name="OpenFolderCheckBox" Content="完成后打开本批文件夹"/>
+                  <CheckBox x:Name="ZipCheckBox" Content="完成后额外生成 ZIP（默认关闭，开启会多花时间）"/>
+                </StackPanel>
+              </StackPanel>
+            </Border>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+              <TextBlock x:Name="SettingsSavedText" Foreground="{StaticResource AppleGreenDarkBrush}" VerticalAlignment="Center" Margin="0,0,12,0"/>
+              <Button Content="保存设置" Style="{StaticResource PrimaryButton}" Click="SaveSettings_Click"/>
+            </StackPanel>
+          </StackPanel>
+        </ScrollViewer>
+      </Grid>
+    </Grid>
+  </Grid>
+</Window>

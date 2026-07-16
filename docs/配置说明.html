@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>青苹果下载器 · 首次配置</title>
+  <style>
+    :root{--green:#38b66b;--deep:#174d31;--soft:#e9f8ef;--ink:#17251d;--muted:#66766d;--line:#dce8df;--bg:#f4f7f4}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Segoe UI","Microsoft YaHei UI",sans-serif;line-height:1.65}
+    .hero{background:linear-gradient(135deg,#123a26,#207a4a);color:white;padding:42px 24px}.hero-inner,.wrap{max-width:900px;margin:auto}.brand{display:flex;align-items:center;gap:18px}.apple{width:66px;height:66px;border-radius:22px;background:linear-gradient(145deg,#80df72,#29a85f);display:grid;place-items:center;font-size:34px;box-shadow:0 14px 30px #092b1a55}.hero h1{margin:0;font-size:31px}.hero p{margin:5px 0 0;color:#cbe2d3}
+    .wrap{padding:28px 20px 60px}.notice,.card{background:white;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px #2443300c}.notice{padding:16px 18px;margin-bottom:16px;border-left:5px solid var(--green)}.card{padding:24px;margin:15px 0}.step{display:flex;gap:17px}.num{flex:0 0 38px;height:38px;border-radius:12px;background:var(--soft);color:var(--deep);display:grid;place-items:center;font-weight:700}.content{min-width:0}.content h2{font-size:18px;margin:4px 0 9px}.content p{margin:5px 0;color:var(--muted)}
+    code{background:#edf4ef;color:#175c37;padding:2px 6px;border-radius:6px}a{color:#16824a;text-decoration:none;font-weight:600}a:hover{text-decoration:underline}.tag{display:inline-block;background:var(--soft);color:var(--deep);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:650}.check{padding-left:20px}.check li{margin:6px 0}.footer{text-align:center;color:#7d8b82;font-size:12px;margin-top:30px}
+  </style>
+</head>
+<body>
+  <section class="hero"><div class="hero-inner"><div class="brand"><div class="apple">🍏</div><div><h1>青苹果下载器 · 首次配置</h1><p>只需配置一次，以后框选链接就能下载。</p></div></div></div></section>
+  <main class="wrap">
+    <div class="notice"><b>准备：</b>使用能打开目标表格和视频的 Google 账号。视频仍受 Drive 原有权限控制，软件不会绕过禁止下载设置。</div>
+
+    <section class="card"><div class="step"><div class="num">1</div><div class="content">
+      <h2>创建或选择 Google Cloud 项目</h2>
+      <p>进入 <a href="https://console.cloud.google.com/" target="_blank">Google Cloud Console</a>，创建新项目或选择团队已有项目。</p>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">2</div><div class="content">
+      <h2>启用两个 API</h2>
+      <p>在“API 和服务 → 库”中分别启用 <b>Google Drive API</b> 与 <b>Google Sheets API</b>。</p>
+      <p><a href="https://developers.google.com/workspace/drive/api/quickstart/dotnet" target="_blank">Drive API 官方快速入门</a> · <a href="https://developers.google.com/workspace/sheets/api/quickstart/dotnet" target="_blank">Sheets API 官方快速入门</a></p>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">3</div><div class="content">
+      <h2>配置 OAuth 同意屏幕</h2>
+      <p>在“Google Auth Platform / OAuth 同意屏幕”中填写应用名称和联系邮箱。团队属于同一 Google Workspace 时可按管理员政策选择内部应用；个人账号通常选择外部应用。</p>
+      <p>如果应用仍处于测试状态，把实际下载者的 Google 邮箱加入<b>测试用户</b>。</p>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">4</div><div class="content">
+      <h2>下载“桌面应用”OAuth JSON</h2>
+      <p>打开“凭据 → 创建凭据 → OAuth 客户端 ID”，应用类型选择 <span class="tag">桌面应用</span>，创建后下载 JSON。</p>
+      <p>官方步骤：<a href="https://developers.google.com/workspace/guides/create-credentials#desktop-app" target="_blank">创建桌面应用凭据</a>。请不要把这个 JSON 发给无关人员。</p>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">5</div><div class="content">
+      <h2>安装表格端脚本</h2>
+      <p>在目标表格中选择“扩展程序 → Apps Script”，把随软件提供的 <code>Code.gs</code> 全部复制进去并保存，然后刷新表格。</p>
+      <p>菜单栏会出现 <b>🍏 成品下载</b>。脚本只把框选链接写入当前表格的隐藏队列，不读取或下载 Drive 视频。</p>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">6</div><div class="content">
+      <h2>在软件中完成连接</h2>
+      <ol class="check">
+        <li>打开青苹果下载器 →“设置”。</li>
+        <li>选择第 4 步下载的 OAuth JSON。</li>
+        <li>粘贴目标 Google 表格完整链接。</li>
+        <li>选择下载目录；并发保持建议值 <b>2</b>。</li>
+        <li>保存后点击“连接 Google 账号”，在浏览器完成授权。</li>
+      </ol>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">7</div><div class="content">
+      <h2>日常使用</h2>
+      <p>框选任意数量的超链接单元格 →“🍏 成品下载”→“成品下载”。右下角会静默显示进度；保持 Windows 客户端打开，任务会自动进入按时间命名的新文件夹。</p>
+      <p><b>ZIP 默认关闭更快。</b>需要额外压缩包时，再到设置中打开 ZIP 开关；程序会保留原视频并额外生成压缩包。</p>
+      <p><b>手动粘贴文字超链接：</b>在表格中复制目标单元格，切换到软件“粘贴链接”页后直接按 Ctrl+V。软件会优先读取剪贴板中的 HTML/RTF 信息并显示真实 Drive 地址；也可以点击“从剪贴板提取超链接”。</p>
+    </div></div></section>
+
+    <section class="card"><div class="step"><div class="num">?</div><div class="content">
+      <h2>常见问题</h2>
+      <ul class="check">
+        <li><b>403：</b>确认两个 API 已启用、登录账号有文件权限、文件拥有者没有禁止下载。</li>
+        <li><b>表格没有菜单：</b>保存 Apps Script 后刷新整个表格页面。</li>
+        <li><b>只下载两个？</b>不是。2 是同时下载数；框选 10 个会分批并发并全部完成。</li>
+        <li><b>下载中断：</b>保留文件夹中的 <code>.part</code> 文件，再次下载同名文件会继续传输。</li>
+      </ul>
+    </div></div></section>
+    <div class="footer">青苹果下载器 · 本地优先 · 凭据与令牌不会写入表格</div>
+  </main>
+</body>
+</html>
