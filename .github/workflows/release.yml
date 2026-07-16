@@ -1,0 +1,67 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  id-token: write
+  contents: write
+  attestations: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        shell: pwsh
+        run: |
+          dotnet restore ./src/GreenAppleDownloader/GreenAppleDownloader.csproj --runtime win-x64 --configfile ./NuGet.Config
+          dotnet restore ./tests/GreenAppleDownloader.SmokeTests/GreenAppleDownloader.SmokeTests.csproj --configfile ./NuGet.Config
+
+      - name: Build and test
+        shell: pwsh
+        run: |
+          dotnet build ./src/GreenAppleDownloader/GreenAppleDownloader.csproj --configuration Release --no-restore
+          dotnet run --project ./tests/GreenAppleDownloader.SmokeTests/GreenAppleDownloader.SmokeTests.csproj --configuration Release --no-restore
+
+      - name: Publish Windows application
+        shell: pwsh
+        run: |
+          $publishDir = Join-Path $PWD 'publish/GreenAppleDownloader-win-x64'
+          dotnet publish ./src/GreenAppleDownloader/GreenAppleDownloader.csproj `
+            --configuration Release `
+            --runtime win-x64 `
+            --self-contained true `
+            --no-restore `
+            -p:PublishSingleFile=true `
+            -p:IncludeNativeLibrariesForSelfExtract=true `
+            --output $publishDir
+
+      - name: Package release
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          $archive = "dist/GreenAppleDownloader-$env:GITHUB_REF_NAME-win-x64.zip"
+          Compress-Archive -Path 'publish/GreenAppleDownloader-win-x64/*' -DestinationPath $archive -Force
+
+      - name: Attest Build Provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'dist/*.zip'
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
+          generate_release_notes: true
